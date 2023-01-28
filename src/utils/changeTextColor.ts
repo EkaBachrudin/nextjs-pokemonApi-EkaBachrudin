@@ -23,7 +23,6 @@ function getContrast(f: any, b: any) {
 }
 
 export function getTextColor(bgColor: any) {
-    console.log(bgColor == null)
     const color = colourNameToHex(bgColor)
     const whiteContrast = getContrast(color, '#ffffff')
     const blackContrast = getContrast(color, '#000000')

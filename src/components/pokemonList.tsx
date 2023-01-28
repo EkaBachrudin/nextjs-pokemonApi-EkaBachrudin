@@ -2,26 +2,35 @@ import React, {  useEffect, useState } from 'react'
 import { PokemonInterface } from 'types/pokemonType'
 import Image from 'next/image'
 import { PokemonSpecies } from './pokemonSpecies'
+import { PokemonStates } from './PokemonStates'
 
 export const PokemonList = ({ result }: Props) => {
 
-  const initialArray: any[] = []
-
   return (
     <div className='flex justify-center'>
-      <div className="grid grid-cols-3 gap-4 mt-10 w-3/4">
+      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 mt-10 w-9/12">
         {result.map((pokemon: PokemonInterface, index: any) => (
           
           <div key={index} className='border-solid shadow-lg border-2 border-stone-500 rounded p-5'>
             <div className='flex justify-center h-40'>
               <Image alt="logo" src={pokemon.svg} width={100} height={100} />
             </div>
+            <hr className='my-4' />
             <div className='flex justify-between'>
               <div className='PokeName'>
-                <p className='text-xl font-bold'>{ pokemon.name }</p>
+                <p className='text-xl font-bold'>{pokemon.name}</p>
+                <PokemonStates stats={pokemon.stats}/>
               </div>
               <div className='pokeSpecies'>
-                <PokemonSpecies speciesPorp={pokemon.species}/>
+                <PokemonSpecies speciesPorp={pokemon.species} />
+                <div className='mt-2'>
+                  <p className='text-xs'>Types: </p>
+                {pokemon.types.map((_:any, index: any) => (
+                  <div key={index} className='bg-gray-800 rounded p-1 flex justify-center mt-3'>
+                  <p className='text-xs'>{_.type.name}</p>
+                </div>
+                ))}
+                </div>
               </div>
             </div>
           </div>

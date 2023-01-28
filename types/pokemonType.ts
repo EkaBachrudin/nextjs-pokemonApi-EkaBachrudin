@@ -6,4 +6,6 @@ export type PokemonInterface = {
         name: string
         url: string
     }
+    stats: {},
+    types: []
 }

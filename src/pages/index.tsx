@@ -11,13 +11,13 @@ export default function Home() {
 
     useEffect(() => {
       setLoading(true)
-      fetch('https://pokeapi.co/api/v2/pokemon?offset=10&limit=10')
+      fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20')
         .then((res) => res.json())
         .then((res) => {
           let i: PokemonInterface[] = []
           res.results.map( (_: any) => {
             fetch(_.url).then((res) => res.json()).then((res) => {
-              let getPokemonData: PokemonInterface = { name: _.name, url: _.url, svg: res.sprites.other.dream_world.front_default, species: res.species }
+              let getPokemonData: PokemonInterface = { name: _.name, url: _.url, svg: res.sprites.other.dream_world.front_default, species: res.species, stats:  res.stats, types: res.types}
               setData(initialArray => [...initialArray, getPokemonData]);
             })
           })
