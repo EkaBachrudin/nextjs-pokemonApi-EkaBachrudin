@@ -17,15 +17,12 @@ export default function Home() {
           let i: PokemonInterface[] = []
           res.results.map( (_: any) => {
             fetch(_.url).then((res) => res.json()).then((res) => {
-              let getPokemonData: PokemonInterface = { name: _.name, url: _.url, svg: res.sprites.other.dream_world.front_default }
+              let getPokemonData: PokemonInterface = { name: _.name, url: _.url, svg: res.sprites.other.dream_world.front_default, species: res.species }
               setData(initialArray => [...initialArray, getPokemonData]);
             })
           })
-          
         })
     }, [])
-  
-  console.log(data)
   
     
   return (
