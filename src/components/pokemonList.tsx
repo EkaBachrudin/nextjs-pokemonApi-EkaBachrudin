@@ -8,10 +8,10 @@ export const PokemonList = ({ result }: Props) => {
 
   return (
     <div className='flex justify-center'>
-      <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 mt-10 w-9/12">
+      <div className="grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 gap-4 mt-10 w-11/12">
         {result.map((pokemon: PokemonInterface, index: any) => (
           
-          <div key={index} className='border-solid shadow-lg border-2 border-stone-500 rounded p-5'>
+          <div key={index} className='border-solid shadow-lg border-2 bg-stone-600 border-stone-500 rounded p-5'>
             <div className='flex justify-center h-40'>
               <Image alt="logo" src={pokemon.svg} width={100} height={100} />
             </div>
