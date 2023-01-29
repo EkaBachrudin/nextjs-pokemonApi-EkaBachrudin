@@ -12,8 +12,9 @@ export const PokemonList = ({ result }: Props) => {
         {result.map((pokemon: PokemonInterface, index: any) => (
           
           <div key={index} className='border-solid shadow-lg border-2 bg-stone-600 border-stone-500 rounded p-5'>
-            <div className='flex justify-center h-40'>
-              <Image alt="logo" src={pokemon.svg} width={100} height={100} />
+            <div className='flex justify-center items-center h-40'>
+              {pokemon.svg? <Image alt="Pokemon" src={pokemon.svg} width={100} height={100} /> : 'No Image'}
+              
             </div>
             <hr className='my-4' />
             <div className='flex justify-between'>
@@ -27,7 +28,7 @@ export const PokemonList = ({ result }: Props) => {
                   <p className='text-xs'>Types: </p>
                 {pokemon.types.map((_:any, index: any) => (
                   <div key={index} className='bg-gray-800 rounded p-1 flex justify-center mt-3'>
-                  <p className='text-xs'>{_.type.name}</p>
+                  <div className='text-xs'>{_.type.name}</div>
                 </div>
                 ))}
                 </div>

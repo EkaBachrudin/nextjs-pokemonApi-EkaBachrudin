@@ -1,4 +1,6 @@
+import { Pagination } from '@/components/pagination'
 import { PokemonList } from '@/components/pokemonList'
+import { SearchPokemon } from '@/components/searchPokemon'
 import Head from 'next/head'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
@@ -7,22 +9,35 @@ import { PokemonInterface } from 'types/pokemonType'
 export default function Home() {
   const initialArray: any[] = []
   const [data, setData] = useState<any[]>(initialArray)
-    const [isLoading, setLoading] = useState(false)
+  const [isLoading, setLoading] = useState(false)
+  const [offset, setOffset] = useState(0);
+  const [limit, setLimit] = useState(40);
 
-    useEffect(() => {
-      setLoading(true)
-      fetch('https://pokeapi.co/api/v2/pokemon?offset=0&limit=20')
-        .then((res) => res.json())
-        .then((res) => {
-          let i: PokemonInterface[] = []
-          res.results.map( (_: any) => {
-            fetch(_.url).then((res) => res.json()).then((res) => {
-              let getPokemonData: PokemonInterface = { name: _.name, url: _.url, svg: res.sprites.other.dream_world.front_default, species: res.species, stats:  res.stats, types: res.types}
-              setData(initialArray => [...initialArray, getPokemonData]);
-            })
+  const onPageChange = (currentOffset: any) => {
+    load(currentOffset)
+    setOffset(currentOffset)
+  };
+
+  const load = (currentOffset: any) => {
+    setData([]);
+    setLoading(true)
+    fetch(`https://pokeapi.co/api/v2/pokemon?offset=${currentOffset}&limit=${limit}`)
+      .then((res) => res.json())
+      .then((res) => {
+        let i: PokemonInterface[] = []
+        res.results.map( (_: any) => {
+          fetch(_.url).then((res) => res.json()).then((res) => {
+            let getPokemonData: PokemonInterface = { name: _.name, url: _.url, svg: res.sprites.other.dream_world.front_default, species: res.species, stats:  res.stats, types: res.types}
+            setData(initialArray => [...initialArray, getPokemonData]);
           })
         })
-    }, [])
+      })
+      setLoading(false)
+  }
+
+  useEffect(() => {
+   load(0)
+  }, [])
   
     
   return (
@@ -39,7 +54,22 @@ export default function Home() {
                 <p>POKEMON API</p> <span className='text-xs'>By EKa Bachrudin</span>
               </div>
         </div>
-      <PokemonList  result={data} />
+      {data.length == 0 ? <div className='flex justify-center items-center '>Loading ...</div> : 
+        <>
+        
+          <div className='lg:flex lg:space-y-0 justify-between space-y-2  mt-5 items-center lg:mx-16'>
+            <Pagination
+              limit={limit}
+              offset={offset}
+              onPageChange={onPageChange}
+            />
+            <SearchPokemon/>
+          </div>
+          
+         <PokemonList result={data} />
+        </>
+      }
+     
     </>
   )
 }
